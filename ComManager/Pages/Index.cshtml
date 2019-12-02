@@ -4,7 +4,33 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-page="./Index"
+                       asp-route-order="@Model.NameSort">
+                    @Html.DisplayNameFor(model => model.Computers[0].Name)
+                    </a>
+                </th>
+                <th>@Html.DisplayNameFor(model => model.Computers[0].Room.Shortname)</th>
+                <th>@Html.DisplayNameFor(model => model.Computers[0].Processor)</th>
+                <th>@Html.DisplayNameFor(model => model.Computers[0].OperatingMemory)</th>
+                <th>@Html.DisplayNameFor(model => model.Computers[0].LocalDriveSize)</th>
+                <th>@Html.DisplayNameFor(model => model.Computers[0].FlaggedAsBroken)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Computers)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Room.Shortname)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Processor)</td>
+                    <td>@Html.DisplayFor(modelItem => item.OperatingMemory)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LocalDriveSize)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FlaggedAsBroken)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
