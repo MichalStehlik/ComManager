@@ -11,7 +11,7 @@ namespace ComManager.Pages
 {
     public class IndexModel : PageModel
     {
-        private DataProvider _dp;
+        private readonly DataProvider _dp;
 
         public List<Computer> Computers { get; set; }
         public string NameSort { get; set; }
@@ -21,9 +21,9 @@ namespace ComManager.Pages
             _dp = dp;
         }
 
-        public void OnGet(string order = null)
+        public void OnGet(string order = "name")
         {
-            NameSort = String.IsNullOrEmpty(order) ? "name_desc" : "";
+            NameSort = order == "name" ? "name_desc" : "name";
             SortOrder ns;
             switch (order)
             {
