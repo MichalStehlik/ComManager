@@ -4,12 +4,23 @@
     ViewData["Title"] = "Home page";
 }
 
+    <form asp-page="./Index" method="get" class="form-inline">
+        <label class="sr-only" for="Search">Filtr</label>
+        <select name="RoomFilter" class="form-control mb-2 mr-sm-2" asp-for="@Model.CurrentRoomFilter" asp-items="@Model.RoomList">
+            <option value="">-- libovolná --</option>
+        </select>
+        <input type="text" name="NameFilter" class="form-control mb-2 mr-sm-2" asp-for="@Model.CurrentNameFilter" />
+        <input type="submit" value="Search" class="btn btn-primary mb-2 mr-1" /> <a asp-page="./Index" class="btn btn-secondary mb-2">Vše</a>
+    </form>
+
     <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>
                     <a asp-page="./Index"
-                       asp-route-order="@Model.NameSort">
+                       asp-route-order="@Model.NameSort"
+                       asp-route-nameFilter="@Model.CurrentNameFilter"
+                       asp-route-roomFilter="@Model.CurrentRoomFilter">
                     @Html.DisplayNameFor(model => model.Computers[0].Name)
                     </a>
                 </th>

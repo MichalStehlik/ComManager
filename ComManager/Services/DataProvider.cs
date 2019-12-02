@@ -16,19 +16,47 @@ namespace ComManager.Services
             _db = db;
         }
 
-        public List<Computer> FetchComputers(SortOrder nameSortOrder = SortOrder.None)
+        public List<Computer> FetchComputers(int? roomFilter = null, string nameFilter = null, SortOrder nameSortOrder = SortOrder.None)
         {
-            IQueryable<Computer> computers = _db.Computers;
+            IQueryable<Computer> computers = _db.Computers.Include(c => c.Room);
+
+            if (roomFilter != null)
+            {
+                computers = computers.Where(c => c.RoomId == roomFilter);
+            }
+
+            if (!String.IsNullOrEmpty(nameFilter))
+            {
+                computers = computers.Where(c => c.Name.Contains(nameFilter));
+            }
+
             switch (nameSortOrder)
             {
                 case SortOrder.Ascending :
-                    computers.OrderBy(c => c.Name);
+                    computers = computers.OrderBy(c => c.Name);
                     break;
                 case SortOrder.Descending:
-                    computers.OrderByDescending(c => c.Name);
+                    computers = computers.OrderByDescending(c => c.Name);
                     break;
             }
             return computers.AsNoTracking().ToList();
+        }
+
+        public List<Room> FetchRooms(SortOrder nameSortOrder = SortOrder.None)
+        {
+            IQueryable<Room> rooms = _db.Rooms;
+
+            switch (nameSortOrder)
+            {
+                case SortOrder.Ascending:
+                    rooms = rooms.OrderBy(c => c.Name);
+                    break;
+                case SortOrder.Descending:
+                    rooms = rooms.OrderByDescending(c => c.Name);
+                    break;
+            }
+
+            return rooms.AsNoTracking().ToList();
         }
     }
 }
